@@ -17,6 +17,10 @@ pub fn main() {
 
     let _ = verifying_data.verify(&verifying_key).is_ok();
 
+    // let spodata = verifying_data.get_json_values([".data.spotdata"])
+
+    // use spodata
+
     commit(&verifying_key);
     commit(&verifying_data.get_records());
 }

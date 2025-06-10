@@ -17,7 +17,7 @@ fn main() {
     let mut stdin_builder = client.new_stdin_builder();
 
     // Set up input
-    let n = 100u32;
+    let n = 10u32;
     stdin_builder.write(&n);
 
     // Generate proof
