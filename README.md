@@ -1,13 +1,17 @@
 # pico-example
 
 
-fibonacci
 
-# Build program in app folder
+## Build
+
+```sh
 cd app
-RUST_LOG=info cargo pico build    
+RUST_LOG=info cargo pico build
+```
 
-# Prove in prover folder
+## Run
+
+```sh
 cd prover
-RUST_LOG=info cargo run --release 
-
+RUST_LOG=info cargo run --release
+```
