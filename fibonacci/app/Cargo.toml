@@ -9,6 +9,6 @@ categories = { workspace = true }
 
 
 [dependencies]
-pico-sdk = { git = "https://github.com/brevis-network/pico", rev = "d67fb438" }
+pico-sdk = { workspace = true }
 alloy-sol-types = "0.8.0"
 fibonacci-lib ={ path = "../lib"}

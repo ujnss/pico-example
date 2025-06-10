@@ -4,8 +4,11 @@ resolver = "2"
 
 [workspace.package]
 version = "1.0.0"
-edition = "2021"
+edition = "2024"
 license = "MIT OR Apache-2.0"
 keywords = ["zkvm", "plonky3", "stark", "FRI"]
 categories = ["cryptography"]
 repository = "https://github.com/ujnss/pico-example"
+
+[workspace.dependencies]
+pico-sdk = { git = "https://github.com/brevis-network/pico", rev = "d67fb438" }
