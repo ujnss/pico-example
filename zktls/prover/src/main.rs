@@ -1,6 +1,6 @@
 use hex;
 use pico_sdk::{client::KoalaBearProverClient, init_logger};
-use std::fs;
+use std::{fs, path::PathBuf};
 
 fn main() {
     // Initialize logger
@@ -27,20 +27,15 @@ fn main() {
     let (riscv_proof, embed_proof) = client
         .prove(stdin_builder)
         .expect("Failed to generate proof");
-    let output_dir = PathBuf::from_str(&"./outputs").expect("the output dir is invalid");
+    let output_dir = PathBuf::from(&"./outputs");
 
-    client.write_onchain_data(output, &riscv_proof, &embed_proof)?;
+    client
+        .write_onchain_data(output_dir, &riscv_proof, &embed_proof)
+        .unwrap();
 
     // Decodes public values from the proof's public value stream.
     let public_buffer = riscv_proof.pv_stream.unwrap();
-    // let public_values = PublicValuesStruct::abi_decode(&public_buffer, true).unwrap();
-
-    // Verify the public values
-    // verify_public_values(&public_values);
 }
-
-/// Verifies that the computed Fibonacci values match the public values.
-// fn verify_public_values(public_values: &PublicValuesStruct) {}
 
 /// Loads an ELF file from the specified path.
 pub fn load_elf(path: &str) -> Vec<u8> {
