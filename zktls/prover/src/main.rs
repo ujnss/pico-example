@@ -1,3 +1,4 @@
+use hex;
 use pico_sdk::{client::KoalaBearProverClient, init_logger};
 use std::fs;
 
@@ -19,16 +20,19 @@ fn main() {
 
     let attestation_data = fs::read_to_string("./data/attestation_data.json").unwrap();
     let bytes = bincode::serialize(&attestation_data).expect("failed to serialize");
+    println!("data len: {} 0x{}", bytes.len(), hex::encode(&bytes));
     stdin_builder.write_slice(&bytes);
-    println!("data length: {}", bytes.len());
 
     // Generate proof
-    let proof = client
-        .prove_fast(stdin_builder)
+    let (riscv_proof, embed_proof) = client
+        .prove(stdin_builder)
         .expect("Failed to generate proof");
+    let output_dir = PathBuf::from_str(&"./outputs").expect("the output dir is invalid");
+
+    client.write_onchain_data(output, &riscv_proof, &embed_proof)?;
 
     // Decodes public values from the proof's public value stream.
-    let public_buffer = proof.pv_stream.unwrap();
+    let public_buffer = riscv_proof.pv_stream.unwrap();
     // let public_values = PublicValuesStruct::abi_decode(&public_buffer, true).unwrap();
 
     // Verify the public values
