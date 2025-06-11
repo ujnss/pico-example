@@ -17,13 +17,8 @@ fn main() {
     // Initialize new stdin
     let mut stdin_builder = client.new_stdin_builder();
 
-    let verifying_key = fs::read_to_string("./verifying_k256.key").unwrap();
-    let bytes = bincode::serialize(&verifying_key).expect("failed to serialize");
-    stdin_builder.write_slice(&bytes);
-    println!("key length: {}", bytes.len());
-
-    let verifying_data = fs::read_to_string("./data/bench16.json").unwrap();
-    let bytes = bincode::serialize(&verifying_data).expect("failed to serialize");
+    let attestation_data = fs::read_to_string("./data/attestation_data.json").unwrap();
+    let bytes = bincode::serialize(&attestation_data).expect("failed to serialize");
     stdin_builder.write_slice(&bytes);
     println!("data length: {}", bytes.len());
 
