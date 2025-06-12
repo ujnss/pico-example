@@ -17,17 +17,18 @@ tasks = manager.dict()
 class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         # Allow frontend at 5173 (or adjust as needed)
-        # self.send_header("Access-Control-Allow-Origin", "*")
-        # self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
-        # self.send_header("Access-Control-Allow-Headers", "*")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "*")
         # self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         # self.send_header("Access-Control-Allow-Credentials", "true")  # If credentials (cookies) are needed
 
-        self.send_header("Access-Control-Allow-Origin", "http://localhost:5173")
-        self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type")
-        self.send_header("Access-Control-Max-Age", "86400")
-        self.send_header("Vary", "Accept-Encoding, Origin")
+        # self.send_header("Access-Control-Allow-Origin", "http://localhost:5173")
+        # self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        # self.send_header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type")
+        # self.send_header("Access-Control-Max-Age", "86400")
+        # self.send_header("Vary", "Accept-Encoding, Origin")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         super().end_headers()
 
     def do_OPTIONS(self):  # Handle preflight requests
