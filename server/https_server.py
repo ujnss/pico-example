@@ -15,6 +15,14 @@ tasks = manager.dict()
 
 
 class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        # Allow frontend at 5173 (or adjust as needed)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.send_header("Access-Control-Allow-Credentials", "true")  # If credentials (cookies) are needed
+        super().end_headers()
+
     def run_command(self, requestid, attestationData):
         try:
             input_dir = f"./request_data"
