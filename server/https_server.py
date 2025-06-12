@@ -60,11 +60,17 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             print("[OUTPUT]:", result.stdout)
             if result.stderr:
                 print("[ERROR]:", result.stderr)
+
+            pv_file = ""
+            if os.path.exists(f"{output_dir}/pv_file"):
+                with open(f"{output_dir}/pv_file", "r", encoding="utf-8") as f:
+                    pv_file = f.read()
             tasks[requestid] = {
                 "status": "done",
                 "returncode": result.returncode,
                 "stdout": result.stdout,
                 "stderr": result.stderr,
+                "pv_file": pv_file,
             }
         except Exception as e:
             print("[EXCEPTION]:", str(e))
@@ -73,6 +79,7 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "returncode": -1,
                 "stdout": "",
                 "stderr": str(e),
+                "pv_file": "",
             }
         finally:
             is_busy.value = 0
