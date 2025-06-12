@@ -4,4 +4,4 @@ curdir=$(pwd)
 
 # zktls
 cd ${curdir}/server
-python https_server.py
+python3 https_server.py
