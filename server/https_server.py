@@ -140,7 +140,7 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
 useSSL = False
-port = 58080
+port = 38080
 httpd = http.server.HTTPServer(("0.0.0.0", port), SimpleHTTPSRequestHandler)
 
 if useSSL:
@@ -153,5 +153,5 @@ else:
     print(f"Serving HTTP on 0.0.0.0 port {port} (http://127.0.0.1:{port}/) ...")
 httpd.serve_forever()
 
-# curl -X POST http://127.0.0.1:58080/zktls/prove -H "Content-Type: application/json" -d '{"requestid": "1234","attestationData": {"public_data": {},"private_data": {}}}'
-# curl -X POST http://127.0.0.1:58080/zktls/result -H "Content-Type: application/json" -d '{"requestid": "1234"}'
+# curl -X POST http://127.0.0.1:38080/zktls/prove -H "Content-Type: application/json" -d '{"requestid": "1234","attestationData": {"public_data": {},"private_data": {}}}'
+# curl -X POST http://127.0.0.1:38080/zktls/result -H "Content-Type: application/json" -d '{"requestid": "1234"}'
