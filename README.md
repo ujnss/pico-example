@@ -16,10 +16,9 @@ cd prover
 RUST_LOG=info cargo run --release
 ```
 
-RUST_LOG=info cargo pico prove --input "0x0A000000" --fast --elf ../app/elf/riscv32im-pico-zkvm-elf
+[OR]
 
-RUST_LOG=info cargo pico prove --input "0x0A000000" --fast # input n = 10
---elf --evm --setup --input --output
-
-RUST_LOG=info cargo pico prove --elf ../app/elf/riscv32im-pico-zkvm-elf \
---input ""  
+```sh
+RUST_LOG=info ./target/release/zktls-prover --elf ./zktls/app/elf/riscv32im-pico-zkvm-
+elf --input ./zktls/prover/data/attestation_data.json --output-dir pico_out
+```
