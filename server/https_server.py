@@ -18,7 +18,7 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         # Allow frontend at 5173 (or adjust as needed)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "*")
         # self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         # self.send_header("Access-Control-Allow-Credentials", "true")  # If credentials (cookies) are needed
