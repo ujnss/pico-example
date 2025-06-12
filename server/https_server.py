@@ -24,6 +24,10 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
         # self.send_header("Access-Control-Allow-Credentials", "true")  # If credentials (cookies) are needed
         super().end_headers()
 
+    def do_OPTIONS(self):  # Handle preflight requests
+        self.send_response(200, "OK")
+        self.end_headers()
+
     def run_command(self, requestid, attestationData):
         try:
             input_dir = f"./request_data"
