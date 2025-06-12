@@ -1,5 +1,5 @@
 use alloy_sol_types::SolType;
-use fibonacci_lib::{fibonacci, load_elf, PublicValuesStruct};
+use fibonacci_lib::{PublicValuesStruct, fibonacci, load_elf};
 use pico_sdk::{client::DefaultProverClient, init_logger};
 
 fn main() {

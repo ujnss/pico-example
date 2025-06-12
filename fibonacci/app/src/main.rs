@@ -1,7 +1,7 @@
 #![no_main]
 
 use alloy_sol_types::SolValue;
-use fibonacci_lib::{fibonacci, PublicValuesStruct};
+use fibonacci_lib::{PublicValuesStruct, fibonacci};
 use pico_sdk::io::{commit_bytes, read_as};
 
 pico_sdk::entrypoint!(main);
