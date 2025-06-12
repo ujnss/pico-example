@@ -75,8 +75,8 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             data = {"code": "10001", "description": "only support /zktls/prove, /zktls/result"}
             self.send_response(404)
             self.send_header("Content-type", "application/json")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+            #self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            #self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
             return
@@ -93,8 +93,8 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
                 data = {"code": "10002", "description": "Server is busy, please try later."}
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
-                self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-                self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+                #self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+                #self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
                 self.end_headers()
                 self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
                 return
@@ -115,8 +115,8 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             data = {"code": "0", "description": "success"}
             self.send_response(200)
             self.send_header("Content-type", "application/json")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+            #self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            #self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
         elif self.path == "/zktls/result":
@@ -125,8 +125,8 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
                 data = {"code": "10003", "description": f"requestid {requestid} not exist!"}
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
-                self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-                self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+                #self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+                #self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
                 self.end_headers()
                 self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
                 return
@@ -138,8 +138,8 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             }
             self.send_response(200)
             self.send_header("Content-type", "application/json")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+            #self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            #self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
 
