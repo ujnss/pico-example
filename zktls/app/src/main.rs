@@ -16,8 +16,8 @@ pub fn main() {
     // Verify
     let messages = attestation_data.verify(&attestation_config).unwrap();
 
-    // Do something, handle accordingly as needed
-    // Here is just a demonstration
+    // Here is just a demonstration.
+    // Please handle it according to your actual business requirements.
     let request_url = attestation_data.public_data.request.url.clone();
     let mut json_paths = vec![];
     if request_url == "https://www.bitget.com/v1/mix/vip/need" {
