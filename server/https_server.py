@@ -52,6 +52,8 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "../zktls/app/elf/riscv32im-pico-zkvm-elf",
                 "--input",
                 input_file,
+                "--config",
+                "../zktls/prover/data/attestation_config_prod.json",  # dev/test: attestation_config.json
                 "--output-dir",
                 output_dir,
             ]

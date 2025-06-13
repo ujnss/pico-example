@@ -14,6 +14,9 @@ struct Opt {
     #[structopt(short, long, default_value = "./data/attestation_data.json")]
     input: String,
 
+    #[structopt(short, long, default_value = "./data/attestation_config.json")]
+    config: String,
+
     #[structopt(short, long, default_value = "./pico_out")]
     output_dir: String,
 }
@@ -36,8 +39,13 @@ fn main() {
 
     // Input
     let attestation_data = fs::read_to_string(opt.input).unwrap();
-    let bytes = bincode::serialize(&attestation_data).expect("failed to serialize");
+    let bytes = bincode::serialize(&attestation_data).expect("failed to serialize data");
     // println!("data len: {} 0x{}", bytes.len(), hex::encode(&bytes));
+    stdin_builder.write_slice(&bytes);
+
+    let attestation_config = fs::read_to_string(opt.config).unwrap();
+    let bytes = bincode::serialize(&attestation_config).expect("failed to serialize config");
+    // println!("config len: {} 0x{}", bytes.len(), hex::encode(&bytes));
     stdin_builder.write_slice(&bytes);
 
     // Generate proof

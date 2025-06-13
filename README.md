@@ -16,8 +16,12 @@ cd prover
 RUST_LOG=info cargo run --release
 ```
 
-[OR]
+[OR] local test:
 
 ```sh
-RUST_LOG=info ./target/release/zktls-prover --elf ./zktls/app/elf/riscv32im-pico-zkvm-elf --input ./zktls/prover/data/attestation_data.json --output-dir pico_out
+RUST_LOG=info ./target/release/zktls-prover \
+  --elf ./zktls/app/elf/riscv32im-pico-zkvm-elf \
+  --input ./zktls/prover/data/attestation_data.json \
+  --config ./zktls/prover/data/attestation_config.json \
+  --output-dir pico_out
 ```

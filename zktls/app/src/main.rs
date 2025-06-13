@@ -6,20 +6,14 @@ use zktls_att_verification::attestation_data::{AttestationConfig, AttestationDat
 
 pub fn main() {
     let attestation_data: String = read_as();
+    let attestation_config: String = read_as();
     // println!("attestation_data {:?}", attestation_data);
+    // println!("attestation_config {:?}", attestation_config);
 
-    // Predefined config
-    let attestation_config: AttestationConfig = AttestationConfig {
-        // attestor_addr: "0xe02bd7a6c8aa401189aebb5bad755c2610940a73".to_string(),
-        attestor_addr: "0xDB736B13E2f522dBE18B2015d0291E4b193D8eF6".to_string(),
-        url: vec![
-            "https://www.bitget.com/v1/mix/vip/need".to_string(),
-            "https://www.bitget.com/v1/spot/order/historyList".to_string(),
-        ],
-    };
+    let attestation_data: AttestationData = serde_json::from_str(&attestation_data).unwrap();
+    let attestation_config: AttestationConfig = serde_json::from_str(&attestation_config).unwrap();
 
     // Verify
-    let attestation_data: AttestationData = serde_json::from_str(&attestation_data).unwrap();
     let messages = attestation_data.verify(&attestation_config).unwrap();
 
     // Do something
