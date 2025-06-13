@@ -16,12 +16,19 @@ pub fn main() {
     // Verify
     let messages = attestation_data.verify(&attestation_config).unwrap();
 
-    // Do something
+    // Do something, handle accordingly as needed
+    // Here is just a demonstration
+    let request_url = attestation_data.public_data.request.url.clone();
     let mut json_paths = vec![];
-    // json_paths.push("$.data.spotVol"); // https://www.bitget.com/v1/mix/vip/need
-    json_paths.push("$.data.data"); // https://www.bitget.com/v1/spot/order/historyList
-    let json_value = messages[0].get_json_values(&json_paths);
-    println!("data.spotVol:{:?}", json_value);
+    if request_url == "https://www.bitget.com/v1/mix/vip/need" {
+        json_paths.push("$.data.spotVol");
+        let json_value = messages[0].get_json_values(&json_paths);
+        println!("data.spotVol:{:?}", json_value);
+    } else if request_url == "https://www.bitget.com/v1/spot/order/historyList" {
+        json_paths.push("$.data.data");
+        let json_value = messages[0].get_json_values(&json_paths);
+        println!("data.data:{:?}", json_value);
+    }
 
     commit(&attestation_data.public_data);
 }
