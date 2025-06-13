@@ -10,8 +10,12 @@ pub fn main() {
 
     // Predefined config
     let attestation_config: AttestationConfig = AttestationConfig {
-        attestor_addr: "0xe02bd7a6c8aa401189aebb5bad755c2610940a73".to_string(),
-        url: vec!["https://www.bitget.com/v1/mix/vip/need".to_string()],
+        // attestor_addr: "0xe02bd7a6c8aa401189aebb5bad755c2610940a73".to_string(),
+        attestor_addr: "0xDB736B13E2f522dBE18B2015d0291E4b193D8eF6".to_string(),
+        url: vec![
+            "https://www.bitget.com/v1/mix/vip/need".to_string(),
+            "https://www.bitget.com/v1/spot/order/historyList".to_string(),
+        ],
     };
 
     // Verify
