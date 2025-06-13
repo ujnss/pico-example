@@ -26,7 +26,7 @@ pub fn main() {
     let mut json_paths = vec![];
     json_paths.push("$.data.spotVol");
     let json_value = messages[0].get_json_values(&json_paths);
-    println!("json value:{:?}", json_value);
+    println!("data.spotVol:{:?}", json_value);
 
     commit(&attestation_data.public_data);
 }

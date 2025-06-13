@@ -1,7 +1,7 @@
 #!/bin/bash
 curdir=$(pwd)
 
-# http server
+# zktls
 cd ${curdir}/zktls/app
 RUST_LOG=info cargo pico build
 
