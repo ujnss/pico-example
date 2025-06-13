@@ -2,32 +2,23 @@ import http.server
 import ssl
 import json
 import subprocess
-from urllib.parse import urlparse, unquote
 import json
-import threading
 import os
 from multiprocessing import Process, Value, Manager
-
+import time
 
 is_busy = Value("i", 0)  # 0: idle, 1: busy
 manager = Manager()
 tasks = manager.dict()
+start = time.perf_counter()
 
 
 class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
-        # Allow frontend at 5173 (or adjust as needed)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "*")
-        # self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         # self.send_header("Access-Control-Allow-Credentials", "true")  # If credentials (cookies) are needed
-
-        # self.send_header("Access-Control-Allow-Origin", "http://localhost:5173")
-        # self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-        # self.send_header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type")
-        # self.send_header("Access-Control-Max-Age", "86400")
-        # self.send_header("Vary", "Accept-Encoding, Origin")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         super().end_headers()
 
@@ -36,6 +27,7 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def run_command(self, requestid, attestationData):
+        t_start = time.perf_counter()
         try:
             input_dir = f"./request_data"
             output_dir = f"./proof_output/{requestid}"
@@ -67,21 +59,26 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             if os.path.exists(f"{output_dir}/pv_file"):
                 with open(f"{output_dir}/pv_file", "r", encoding="utf-8") as f:
                     pv_file = f.read()
+
+            t_end = time.perf_counter()
             tasks[requestid] = {
                 "status": "done",
                 "returncode": result.returncode,
                 "stdout": result.stdout,
                 "stderr": result.stderr,
                 "pv_file": pv_file,
+                "elapsed": f"{t_end - t_start:.6f}",
             }
         except Exception as e:
             print("[EXCEPTION]:", str(e))
+            t_end = time.perf_counter()
             tasks[requestid] = {
                 "status": "error",
                 "returncode": -1,
                 "stdout": "",
                 "stderr": str(e),
                 "pv_file": "",
+                "elapsed": f"{t_end - t_start:.6f}",
             }
         finally:
             is_busy.value = 0
@@ -91,8 +88,6 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             data = {"code": "10001", "description": "only support /zktls/prove, /zktls/result"}
             self.send_response(404)
             self.send_header("Content-type", "application/json")
-            # self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            # self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
             return
@@ -109,8 +104,6 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
                 data = {"code": "10002", "description": "Server is busy, please try later."}
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
-                # self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-                # self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
                 self.end_headers()
                 self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
                 return
@@ -131,8 +124,6 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             data = {"code": "0", "description": "success"}
             self.send_response(200)
             self.send_header("Content-type", "application/json")
-            # self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            # self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
         elif self.path == "/zktls/result":
@@ -141,8 +132,6 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
                 data = {"code": "10003", "description": f"requestid {requestid} not exist!"}
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
-                # self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-                # self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
                 self.end_headers()
                 self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
                 return
@@ -154,8 +143,6 @@ class SimpleHTTPSRequestHandler(http.server.SimpleHTTPRequestHandler):
             }
             self.send_response(200)
             self.send_header("Content-type", "application/json")
-            # self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            # self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
 
