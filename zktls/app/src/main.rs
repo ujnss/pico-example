@@ -18,7 +18,8 @@ pub fn main() {
 
     // Do something
     let mut json_paths = vec![];
-    json_paths.push("$.data.spotVol");
+    // json_paths.push("$.data.spotVol"); // https://www.bitget.com/v1/mix/vip/need
+    json_paths.push("$.data.data"); // https://www.bitget.com/v1/spot/order/historyList
     let json_value = messages[0].get_json_values(&json_paths);
     println!("data.spotVol:{:?}", json_value);
 
